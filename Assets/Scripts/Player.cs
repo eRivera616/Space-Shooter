@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     private float _speed = 6f;
     private float _boostMultiplier = 2f;
+    private float _thrusterSpeed = 3f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -79,6 +80,16 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
         transform.Translate(direction * _speed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _speed += _thrusterSpeed;
+            _boostVis.SetActive(true);
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _speed -= _thrusterSpeed;
+            _boostVis.SetActive(false);
+        }
         if (transform.position.x > 11.3f)
         {
             transform.position = new Vector3(-11.3f, transform.position.y, 0);
