@@ -596,6 +596,7 @@ MonoBehaviour:
     type: 3}
   _tripleShotPrefab: {fileID: 2528339105636290963, guid: a3fcecb5ec67d11428fb9e72f4ecc1fd,
     type: 3}
+  _shieldActive: 0
   _shieldVis: {fileID: 95916405}
   _boostVis: {fileID: 849339661}
   _leftEngineFireVis: {fileID: 1816418569}

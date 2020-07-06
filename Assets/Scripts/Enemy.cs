@@ -68,9 +68,8 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" )
+        if (other.tag == "Player")
         {
-            
             if (_player != null)
             {
                 _player.Damage();
@@ -79,8 +78,7 @@ public class Enemy : MonoBehaviour
             Instantiate(_deathAnim, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
-
-        if(other.name == "Laser(Clone)" || other.transform.parent.tag == "Triple Shot")
+        if (other.tag != "Enemy Laser" || other.tag != "Player")
         {
             Destroy(other.gameObject);
             if (_player != null)

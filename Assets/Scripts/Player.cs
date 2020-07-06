@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     private bool _tripleShotActive = false;
     private bool _speedBoostActive = false;
-    private bool _shieldActive = false;
-    [SerializeField]
-    private GameObject _shieldVis;
+    private bool _shieldActive;
     [SerializeField]
     private GameObject _boostVis;
     [SerializeField]
@@ -35,6 +33,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _playerSprite;
     public int _score;
     private int damageID;
+    
     [SerializeField]
     private AudioClip _laserSoundClip;
     [SerializeField]
@@ -42,6 +41,7 @@ public class Player : MonoBehaviour
     private AudioSource _soundSource;
     void Start()
     {
+        _shieldActive = GameObject.Find("Shields").GetComponent<PlayerShield>()._shieldActive;
         _playerSprite = GetComponent<SpriteRenderer>();
         transform.position = new Vector3(0, -3.8f, 0);
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
@@ -105,10 +105,9 @@ public class Player : MonoBehaviour
     {
         if (_shieldActive == true)
         {
-            _shieldActive = false;
-            _shieldVis.SetActive(false);
             return;
         }
+       
         _lives --;
         _uiManager.UpdateLives(_lives);
         if(_lives < 1)
@@ -168,7 +167,6 @@ public class Player : MonoBehaviour
     public void ShieldActive()
     {
         _shieldActive = true;
-        _shieldVis.SetActive(true);
         _soundSource.PlayOneShot(_powerupSoundClip);
     }
     public void AddScore(int points)
