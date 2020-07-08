@@ -64,10 +64,10 @@ public class Enemy : MonoBehaviour
             Instantiate(_enemyLaser, this.transform.position, Quaternion.identity);
             _soundSource.PlayOneShot(_laserSoundClip);
         }
-        
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("enemy other is " + other);
         if (other.tag == "Player")
         {
             if (_player != null)
@@ -78,9 +78,20 @@ public class Enemy : MonoBehaviour
             Instantiate(_deathAnim, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
-        if (other.tag != "Enemy Laser" || other.tag != "Player")
+        if (other.name == "Laser(Clone)")
         {
             Destroy(other.gameObject);
+            if (_player != null)
+            {
+                _player.AddScore(10);
+            }
+            _speed = 0;
+            Instantiate(_deathAnim, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+        
+        if (other.tag == "Player Shield")
+        {
             if (_player != null)
             {
                 _player.AddScore(10);
