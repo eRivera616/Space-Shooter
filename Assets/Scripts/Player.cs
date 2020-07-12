@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _powerupSoundClip;
     private AudioSource _soundSource;
+    private int _ammo = 15;
     void Start()
     {
         _playerSprite = GetComponent<SpriteRenderer>();
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         calculateMovement();
-        if(Input.GetKey(KeyCode.Space) && Time.time > _canFire)
+        if(Input.GetKey(KeyCode.Space) && Time.time > _canFire && _ammo > 0)
         {
             fireLaser();
         }
@@ -110,6 +111,8 @@ public class Player : MonoBehaviour
        {
            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
        }
+       _ammo--;
+       _uiManager.UpdateAmmo(_ammo);
        _soundSource.PlayOneShot(_laserSoundClip);
     }
     public void Damage()

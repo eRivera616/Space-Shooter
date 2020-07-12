@@ -13,13 +13,21 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
+    private Image _ammoImage;
+    [SerializeField]
+    private Sprite[] _ammoSprites;
+    [SerializeField]
     private Text _gameOver;
     [SerializeField]
     private Text _restart;
     [SerializeField]
+    private Text _ammoText;
+    private Text _ammoTextColor;
+    [SerializeField]
     private GameManager _gameManager;
     void Start()
     {
+        _ammoTextColor = GameObject.Find("Ammo_text").GetComponent<Text>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _scoreText.text = "Score: " + 0;
         _gameOver.gameObject.SetActive(false);
@@ -42,6 +50,14 @@ public class UIManager : MonoBehaviour
             GameOverRoutine();
         }
     }
+    public void UpdateAmmo(int currentAmmo)
+    {
+        _ammoImage.sprite = _ammoSprites[currentAmmo];
+        if (currentAmmo <= 0)
+        {
+            StartCoroutine(AmmoFlicker());
+        }
+    }
     public void GameOverRoutine()
     {
         StartCoroutine(GameOverFlicker());
@@ -55,6 +71,16 @@ public class UIManager : MonoBehaviour
             _gameOver.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             _gameOver.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    IEnumerator AmmoFlicker()
+    {
+        while (true)
+        {
+            _ammoText.color = new Color (1,1,1,1);
+            yield return new WaitForSeconds(0.5f);
+            _ammoText.color = new Color (1,0,0,1);
             yield return new WaitForSeconds(0.5f);
         }
     }
